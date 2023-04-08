@@ -48,8 +48,46 @@ export function randomWallPos(i) {
     let y = Math.floor(Math.random() * (GRID_SIZE - 4) + 3)
     return { x: x, y: y }
   } else if (x === 2 || x === 20) {
+    if (x === 2 && prevWall.y === 3) {
+      let genRandomNum = (min, max, exclude) => {
+        let ranNum = Math.floor(Math.random() * (max - min - 1) + min)
+        if (ranNum === exclude + 1) {
+          ranNum = genRandomNum(min, max, exclude)
+        } else if (ranNum === exclude - 1) {
+          ranNum = genRandomNum(min, max, exclude)
+        }
+        return ranNum
+      }
+      let y = genRandomNum(3, GRID_SIZE, prevWall.y)
+      return { x: x, y: y }
+    } else {
+      let genRandomNum = (min, max, exclude) => {
+        let ranNum = Math.floor(Math.random() * (max - min - 1) + min)
+        if (ranNum === exclude + 1) {
+          ranNum = genRandomNum(min, max, exclude)
+        } else if (ranNum === exclude - 1) {
+          ranNum = genRandomNum(min, max, exclude)
+        }
+        return ranNum
+      }
+      let y = genRandomNum(2, GRID_SIZE, prevWall.y)
+      return { x: x, y: y }
+    }
+  } else if (x === 3 && wall[i - 2].y === 3) {
     let genRandomNum = (min, max, exclude) => {
-      let ranNum = Math.floor(Math.random() * (max - min) + 2)
+      let ranNum = Math.floor(Math.random() * (max - min - 1) + min)
+      if (ranNum === exclude + 1) {
+        ranNum = genRandomNum(min, max, exclude)
+      } else if (ranNum === exclude - 1) {
+        ranNum = genRandomNum(min, max, exclude)
+      }
+      return ranNum
+    }
+    let y = genRandomNum(2, GRID_SIZE, prevWall.y)
+    return { x: x, y: y }
+  } else if (wall[i - 2].y === 1 || wall[i - 2].y === 21) {
+    let genRandomNum = (min, max, exclude) => {
+      let ranNum = Math.floor(Math.random() * (max - min - 1) + min)
       if (ranNum === exclude + 1) {
         ranNum = genRandomNum(min, max, exclude)
       } else if (ranNum === exclude - 1) {
@@ -61,7 +99,7 @@ export function randomWallPos(i) {
     return { x: x, y: y }
   } else {
     let genRandomNum = (min, max, exclude) => {
-      let ranNum = Math.floor(Math.random() * (max - min) + 1)
+      let ranNum = Math.floor(Math.random() * (max - min + 1) + min)
       if (ranNum === exclude + 1) {
         ranNum = genRandomNum(min, max, exclude)
       } else if (ranNum === exclude - 1) {
@@ -69,7 +107,36 @@ export function randomWallPos(i) {
       }
       return ranNum
     }
-    let y = genRandomNum(0, GRID_SIZE, prevWall.y)
+    let y = genRandomNum(1, GRID_SIZE, prevWall.y)
     return { x: x, y: y }
-  };
+  }
 }
+
+  // if (x === 1 || x === 21) {
+  //   let y = Math.floor(Math.random() * (GRID_SIZE - 4) + 3)
+  //   return { x: x, y: y }
+  // } else if (x === 2 || x === 20) {
+  //   let genRandomNum = (min, max, exclude) => {
+  //     let ranNum = Math.floor(Math.random() * (max - min) + 2)
+  //     if (ranNum === exclude + 1) {
+  //       ranNum = genRandomNum(min, max, exclude)
+  //     } else if (ranNum === exclude - 1) {
+  //       ranNum = genRandomNum(min, max, exclude)
+  //     }
+  //     return ranNum
+  //   }
+  //   let y = genRandomNum(2, GRID_SIZE, prevWall.y)
+  //   return { x: x, y: y }
+  // } else {
+  //   let genRandomNum = (min, max, exclude) => {
+  //     let ranNum = Math.floor(Math.random() * (max - min) + 1)
+  //     if (ranNum === exclude + 1) {
+  //       ranNum = genRandomNum(min, max, exclude)
+  //     } else if (ranNum === exclude - 1) {
+  //       ranNum = genRandomNum(min, max, exclude)
+  //     }
+  //     return ranNum
+  //   }
+  //   let y = genRandomNum(0, GRID_SIZE, prevWall.y)
+  //   return { x: x, y: y }
+  // };
