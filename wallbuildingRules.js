@@ -54,13 +54,9 @@ if (x === 20)
 if (x === 21)
 //  - if the second to last column wall position is 2
 // the last column wall position can not be 1, 2, 3
-  if (prevWall.y === 2)
+  if (prevWall.y === 2 || wall[i - 2].y === 1)
     y = 4 - 21 && y != 20
-  if (prevWall.y === 20)
-    y = 1 - 18 && y != 2
-  if (wall[i - 2].y = 1)
-    y = 4 - 21 && y != 20
-  if (wall[i - 2].y = 21)
+  if (prevWall.y === 20 || wall[i - 2].y === 21)
     y = 1 - 18 && y != 2
   else
     y != 2, 20 && y != +- 1
