@@ -44,90 +44,57 @@ function getRandomWallPos(i) {
 export function randomWallPos(i) {
   let x = i + 1
   let prevWall = wall[i - 1]
-  let getRandomNumSingle = (min, max, exclude) => {
+  let exclude = []
+  let getRandomNum = (min, max, exclude) => {
     let ranNum = Math.floor(Math.random() * (max - min + 1) + min)
-    if (ranNum === exclude) {
-      ranNum = getRandomNumSingle(min, max, exclude)
-    }
-    return ranNum
-  }
-  let getRandomNumDouble = (min, max, exclude1, exclude2) => {
-    let ranNum = Math.floor(Math.random() * (max - min + 1) + min)
-    if (ranNum === exclude1) {
-      ranNum = getRandomNumDouble(min, max, exclude1, exclude2)
-    } else if (ranNum === exclude2) {
-      ranNum = getRandomNumDouble(min, max, exclude1, exclude2)
-    }
-    return ranNum
-  }
-  let getRandomNumQuadro = (min, max, exclude1, exclude2, exclude3, exclude4) => {
-    let ranNum = Math.floor(Math.random() * (max - min + 1) + min)
-    if (ranNum === exclude1) {
-      ranNum = getRandomNumQuadro(min, max, exclude1, exclude2, exclude3, exclude4)
-    } else if (ranNum === exclude2) {
-      ranNum = getRandomNumQuadro(min, max, exclude1, exclude2, exclude3, exclude4)
-    } else if (ranNum === exclude3) {
-      ranNum = getRandomNumQuadro(min, max, exclude1, exclude2, exclude3, exclude4)
-    } else if (ranNum === exclude4) {
-      ranNum = getRandomNumQuadro(min, max, exclude1, exclude2, exclude3, exclude4)
-    }
+    exclude.forEach(element => { 
+      if (ranNum === element) {
+        ranNum = getRandomNum(min, max, exclude)
+      }
+    });
     return ranNum
   }
   if (x === 1) {
-    let y = getRandomNumDouble(1, GRID_SIZE, 2, 20)
-    return {x: x, y: y}
+    exclude = [2, 20]
   } else if (x === 2) {
     if (prevWall.y === 1) {
-      let y = getRandomNumSingle(1, GRID_SIZE - 1, 2)
-      return {x: x, y: y}
+      exclude = [2]
     } else if (prevWall.y === 21) {
-      let y = getRandomNumSingle(2, GRID_SIZE - 1, 20)
-      return {x: x, y: y}
+      exclude = [20]
     } else {
-      let y = getRandomNumDouble(2, GRID_SIZE - 1, prevWall.y - 1, prevWall.y + 1)
-      return {x: x, y: y}
+      exclude = [prevWall.y -1, prevWall.y + 1]
     }
   } else if (x === 3) {
     if (wall[i - 2].y === 3) {
-      let y = getRandomNumDouble(2, GRID_SIZE, prevWall.y - 1, prevWall.y + 1)
-      return {x: x, y: y}
+      exclude = [prevWall.y -1, prevWall.y + 1]
     } else if (wall[i -2].y === 19) {
-      let y = getRandomNumDouble(1, GRID_SIZE - 1, prevWall.y -1, prevWall.y + 1)
-      return {x: x, y: y}
+      exclude = [prevWall.y -1, prevWall.y + 1]
     } else {
-      let y = getRandomNumDouble(1, GRID_SIZE, prevWall.y - 1, prevWall.y + 1)
-      return {x: x, y: y}
+      exclude = [prevWall.y -1, prevWall.y + 1]
     }
   } else if (x === 20) {
     if (prevWall.y === 1) {
-      let y = getRandomNumDouble(3, GRID_SIZE - 1)
-      return {x: x, y: y}
+      exclude = []
     } else if (prevWall.y === 21) {
-      let y = getRandomNumDouble(2, GRID_SIZE - 2)
-      return {x: x, y: y}
+      exclude = []
     } else {
-      let y = getRandomNumDouble(2, GRID_SIZE - 1, prevWall.y - 1, prevWall.y + 1)
-      return {x: x, y: y}
+      exclude = [prevWall.y -1, prevWall.y + 1]
     }
   } else if (x === 21) {
     if (prevWall.y === 2 || wall[i - 2].y === 1) {
-      let y = getRandomNumSingle(4, GRID_SIZE, 20)
-      return {x: x, y: y}
+      exclude = [20]
     } else if (prevWall.y === 20 || wall[i - 2].y === 21) {
-      let y = getRandomNumSingle(1, GRID_SIZE - 3, 2)
-      return {x: x, y: y}
+      exclude = [2]
     } else {
-      let y = getRandomNumQuadro(1, GRID_SIZE, 2, 20, prevWall.y - 1, prevWall.y + 1)
-      return {x: x, y: y}
+      exclude = [2, 20, prevWall.y - 1, prevWall.y +1]
     }
   } else if (wall[i - 2].y === 1) {
-    let y = getRandomNumDouble(2, GRID_SIZE, prevWall.y - 1, prevWall.y + 1)
-    return {x: x, y: y}
+    exclude = [prevWall.y - 1, prevWall.y + 1]
   } else if (wall[i - 2].y === 21) {
-    let y = getRandomNumDouble(1, GRID_SIZE - 1, prevWall.y - 1, prevWall.y + 1)
-    return {x: x, y: y}
+    exclude = [prevWall.y - 1, prevWall.y + 1]
   } else {
-    let y = getRandomNumDouble(1, GRID_SIZE, prevWall.y - 1, prevWall.y + 1)
-    return {x: x, y: y}
+    exclude = [prevWall.y - 1, prevWall.y + 1]
   }
+  let y = getRandomNum(1, GRID_SIZE, exclude)
+  return {x: x, y: y}
 }
