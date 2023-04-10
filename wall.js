@@ -44,7 +44,7 @@ function getRandomWallPos(i) {
 export function randomWallPos(i) {
   let x = i + 1
   let prevWall = wall[i - 1]
-  let exclude = []
+  let exclude = [prevWall.y - 1, prevWall.y + 1]
   let min = 1
   let max = GRID_SIZE
   let getRandomNum = (min, max, exclude) => {
@@ -67,19 +67,15 @@ export function randomWallPos(i) {
       min = 2
       max = GRID_SIZE - 1
     } else {
-      exclude = [prevWall.y -1, prevWall.y + 1]
       min = 2
       max = GRID_SIZE - 1
     }
   } else if (x === 3) {
     if (wall[i - 2].y === 3) {
-      exclude = [prevWall.y -1, prevWall.y + 1]
       min = 2
     } else if (wall[i -2].y === 19) {
-      exclude = [prevWall.y -1, prevWall.y + 1]
       max = GRID_SIZE - 1
     } else {
-      exclude = [prevWall.y -1, prevWall.y + 1]
     }
   } else if (x === 20) {
     if (prevWall.y === 1) {
@@ -91,7 +87,6 @@ export function randomWallPos(i) {
       min = 2
       max = GRID_SIZE - 2
     } else {
-      exclude = [prevWall.y -1, prevWall.y + 1]
       min = 2
       max = GRID_SIZE - 1
     }
@@ -106,13 +101,9 @@ export function randomWallPos(i) {
       exclude = [2, 20, prevWall.y - 1, prevWall.y +1]
     }
   } else if (wall[i - 2].y === 1) {
-    exclude = [prevWall.y - 1, prevWall.y + 1]
     min = 2
   } else if (wall[i - 2].y === 21) {
-    exclude = [prevWall.y - 1, prevWall.y + 1]
     max = GRID_SIZE - 1
-  } else {
-    exclude = [prevWall.y - 1, prevWall.y + 1]
   }
   let y = getRandomNum(min, max, exclude)
   return {x: x, y: y}
